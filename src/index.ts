@@ -1,25 +1,20 @@
-import http from "http";
+import express, { NextFunction, Request, Response } from "express";
 
 const todos = [
   { id: 1, title: "ネーム", completed: false },
   { id: 2, title: "下書き", completed: true },
 ];
 
-const server = http.createServer((req, res) => {
-  //リクエストのURLやHTTPメソッドに応じてレスポンスを返す
-  if (req.url === "/api/todos") {
-    if (req.method === "GET") {
-      // 全todoをJSON形式で返す
-      res.setHeader("Content-Type", "application/json");
-      return res.end(JSON.stringify(todos));
-    }
-    // GETメソッド以外のメソッドだったら405
-    res.statusCode = 405;
-  } else {
-    // 条件式のurlでリクエストが来なければNot Found
-    res.statusCode = 404;
-  }
-  res.end();
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+/**
+ * todo一覧情報を返す.
+ *
+ * @returns - todo一覧情報
+ */
+app.get("/api/todos", (req: Request, res: Response, next: NextFunction) => {
+  return res.json(todos);
 });
 
-server.listen(3000, () => console.log("サーバー起動中"));
+app.listen(PORT, () => console.log("サーバー起動"));
