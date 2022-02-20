@@ -11,7 +11,7 @@ const server = http.createServer((req, res) => {
     if (req.method === "GET") {
       // 全todoをJSON形式で返す
       res.setHeader("Content-Type", "application/json");
-      return res.sendDate(JSON.stringify(todos));
+      return res.end(JSON.stringify(todos));
     }
     // GETメソッド以外のメソッドだったら405
     res.statusCode = 405;
